@@ -68,9 +68,9 @@ public class Main {
         if (System.getProperty("os.name").startsWith("Windows")) {
             home = "USERPROFILE";
         }
-        String folder = System.getenv(home)+"/manga/"+manga.text()+"/";
+        String dir = System.getenv(home)+"/manga/"+manga.text()+"/";
         for (List<String> datum : data) {
-            String file = folder+datum.get(0)+"/page"+datum.get(1)+".jpg";
+            String file = dir+datum.get(0)+"/page"+datum.get(1)+".jpg";
             System.out.println("Downloading to file (if not exists): "+file);
             if (!new File(file).isFile()) {
                 Runtime.getRuntime().exec(new String[]{

@@ -22,7 +22,7 @@ public class Main {
 
         if (doc.selectFirst("div.panel-page-number") != null) {
             int last = Integer.parseInt(doc.selectFirst("a.page-blue.page-last")
-                .text().replaceAll("[^0-9]", ""));
+                    .text().replaceAll("[^0-9]", ""));
             for (int i = 2; i <= last; i++) {
                 doc = Jsoup.connect(url+"?page="+i).get();
                 mangas.addAll(doc.select("a.a-h.text-nowrap.item-title"));
@@ -57,9 +57,9 @@ public class Main {
                 String img = pages.get(j).attr("src");
                 System.out.println("Targeting image: "+img);
                 data.add(Arrays.asList(
-                    String.format("[%d] %s", i+1, chapters.get(i).text()),
-                    String.format("%03d", j+1),
-                    img
+                        String.format("[%d] %s", i+1, chapters.get(i).text()),
+                        String.format("%03d", j+1),
+                        img
                 ));
             }
         }
@@ -74,14 +74,14 @@ public class Main {
             System.out.println("Downloading to file (if not exists): "+file);
             if (!new File(file).isFile()) {
                 Runtime.getRuntime().exec(new String[]{
-                    "curl",
-                    "--silent",
-                    "--create-dirs",
-                    "--header",
-                    "Referer: https://readmanganato.com/",
-                    "--output",
-                    file,
-                    datum.get(2)
+                        "curl",
+                        "--silent",
+                        "--create-dirs",
+                        "--header",
+                        "Referer: https://readmanganato.com/",
+                        "--output",
+                        file,
+                        datum.get(2)
                 }).waitFor();
             }
         }

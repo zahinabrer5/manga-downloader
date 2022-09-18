@@ -70,20 +70,20 @@ public class Main {
         }
         String dir = System.getenv(home)+"/manga/"+manga.text()+"/";
         for (List<String> datum : data) {
-            String file = dir+datum.get(0)+"/page"+datum.get(1)+".jpg";
-            System.out.println("Downloading to file (if not exists): "+file);
-            if (!new File(file).isFile()) {
-                Runtime.getRuntime().exec(new String[]{
-                        "curl",
-                        "--silent",
-                        "--create-dirs",
-                        "--header",
-                        "Referer: https://readmanganato.com/",
-                        "--output",
-                        file,
-                        datum.get(2)
-                }).waitFor();
+            String fileLocation = dir+datum.get(0)+"/page"+datum.get(1)+".jpg";
+            System.out.println("Downloading to file (if not exists): "+fileLocation);
+            File file = new File(fileLocation);
+            if (!file.isFile()) {
+                file.getParentFile().mkdirs();
+                byte[] imgBytes = Jsoup.connect(datum.get(2))
+                        .header("Referer", "https://readmanganato.com/")
+                        .ignoreContentType(true).execute().bodyAsBytes();
+                FileOutputStream out = new FileOutputStream(file);
+                out.write(imgBytes);
+                out.close();
             }
         }
+
+        System.out.println("Done");
     }
 }

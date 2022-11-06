@@ -6,7 +6,7 @@ import org.jsoup.nodes.*;
 import org.jsoup.select.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
 
         String url;
@@ -16,7 +16,7 @@ public class Main {
             System.out.print("Search manga: ");
             String search = sc.nextLine().replaceAll(" ", "_");
             url = "https://manganato.com/search/story/"+search;
-            doc = Jsoup.connect(url).get();
+            doc = Jsoup.connect(url).timeout(10*1000*60).get();
             mangas = doc.select("a.a-h.text-nowrap.item-title");
         } while (mangas.isEmpty());
 
@@ -24,7 +24,7 @@ public class Main {
             int last = Integer.parseInt(doc.selectFirst("a.page-blue.page-last")
                     .text().replaceAll("[^0-9]", ""));
             for (int i = 2; i <= last; i++) {
-                doc = Jsoup.connect(url+"?page="+i).get();
+                doc = Jsoup.connect(url+"?page="+i).timeout(10*1000*60).get();
                 mangas.addAll(doc.select("a.a-h.text-nowrap.item-title"));
             }
         }
@@ -42,7 +42,7 @@ public class Main {
         System.out.println("Preparing to download manga: "+manga.text());
 
         url = manga.attr("href");
-        doc = Jsoup.connect(url).get();
+        doc = Jsoup.connect(url).timeout(10*1000*60).get();
         Elements chapters = doc.select("a.chapter-name.text-nowrap");
         Collections.reverse(chapters);
 
@@ -50,7 +50,7 @@ public class Main {
 
         for (int i = 0; i < chapters.size(); i++) {
             url = chapters.get(i).attr("href");
-            doc = Jsoup.connect(url).get();
+            doc = Jsoup.connect(url).timeout(10*1000*60).get();
             Element container = doc.selectFirst("div.container-chapter-reader");
             Elements pages = container.children().select("img");
             for (int j = 0; j < pages.size(); j++) {
@@ -76,6 +76,7 @@ public class Main {
             if (!file.isFile()) {
                 file.getParentFile().mkdirs();
                 byte[] imgBytes = Jsoup.connect(datum.get(2))
+                        .timeout(10*1000*60)
                         .header("Referer", "https://readmanganato.com/")
                         .ignoreContentType(true).execute().bodyAsBytes();
                 FileOutputStream out = new FileOutputStream(file);

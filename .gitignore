@@ -1,7 +1,11 @@
+# IntelliJ
 .idea
+out
+manga-downloader.iml
+
+# VSCode
 .metals
 .vscode
-out
+
 src/META-INF
-manga-downloader.iml
 *.jar

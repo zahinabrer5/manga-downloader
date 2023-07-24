@@ -42,7 +42,8 @@ public class Main {
         } while (selection < 1 || selection > mangas.size());
         Element manga = mangas.get(selection-1);
 
-        System.out.println("Preparing to download manga: "+manga.text());
+        String mangaName = cleanse(manga.text());
+        System.out.println("Preparing to download manga: "+mangaName);
 
         url = manga.attr("href");
         doc = get(url);
@@ -70,7 +71,7 @@ public class Main {
 
         boolean isWindows = System.getProperty("os.name").startsWith("Windows");
         String home = isWindows ? "USERPROFILE" : "HOME";
-        String dir = System.getenv(home)+"/manga_test/img/"+manga.text()+"/";
+        String dir = System.getenv(home)+"/manga/img/"+mangaName+"/";
         Runtime runtime = Runtime.getRuntime();
         List<Process> processes = new ArrayList<>();
         for (List<String> datum : data) {

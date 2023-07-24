@@ -2,11 +2,13 @@
 
 Scrapes the site https://manganato.com/ to find and download manga.
 
-Uses jsoup 1.15.3
+Uses jsoup 1.16.1
 
 ## Dependencies
 
-Java 8, download from https://www.java.com/en/download/manual.jsp.
+- Java 8, download from https://www.java.com/en/download/manual.jsp.
+- curl for downloading the manga pages as images
+- img2pdf if you want to convert the pages into a pdf representing a chapter (doesn't work on Windows, as of right now)
 
 ## Running
 

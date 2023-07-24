@@ -1,4 +1,6 @@
 .idea
+.metals
+.vscode
 out
 src/META-INF
 manga-downloader.iml
